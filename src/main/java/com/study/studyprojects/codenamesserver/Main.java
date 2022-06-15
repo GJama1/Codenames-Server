@@ -1,6 +1,6 @@
 package com.study.studyprojects.codenamesserver;
 
-import com.study.studyprojects.codenamesserver.utils.UserThread;
+import com.study.studyprojects.codenamesserver.controller.UserThread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -27,11 +27,7 @@ public class Main
 
             int port = Integer.parseInt(props.getProperty("server.port"));
 
-            String datasourceUrl = props.getProperty("datasource.url");
-            String datasourceUsername = props.getProperty("datasource.username");
-            String datasourcePassword = props.getProperty("datasource.password");
-
-
+            log.info("Starting server on port {}", port);
 
             ServerSocket socket = new ServerSocket(port);
 

@@ -1,5 +1,7 @@
-package com.study.studyprojects.codenamesserver.utils;
+package com.study.studyprojects.codenamesserver.controller;
 
+import com.study.studyprojects.codenamesserver.facade.LoginFacade;
+import com.study.studyprojects.codenamesserver.facade.SignupFacade;
 import com.study.studyprojects.codenamesserver.service.UserService;
 import com.study.studyprojects.model.Message;
 import com.study.studyprojects.model.MessageCodes;
@@ -56,31 +58,12 @@ public class UserThread extends Thread {
                     if (request.getCode().equals(MessageCodes.SIGN_UP_REQUEST)) {
 
                         UserAuthParam userAuthParam = UserAuthMapper.mapFromJson(request.getBody());
+                        SignupFacade.signUpUser(userAuthParam, out);
+                    }
+                    else if (request.getCode().equals(MessageCodes.LOGIN_REQUEST)) {
 
-                        boolean usernameAlreadyExists = UserService.usernameAlreadyExists(userAuthParam.getUsername());
-
-                        if (usernameAlreadyExists) {
-                            Message response = new Message(MessageCodes.CONFLICT, "Username already exists");
-                            out.writeObject(response);
-                            out.flush();
-                        }
-                        else {
-
-                            boolean saved = UserService.saveUser(userAuthParam.getUsername(), userAuthParam.getPassword());
-
-                            if (saved) {
-                                Message response = new Message(MessageCodes.CREATED, "User created");
-                                out.writeObject(response);
-                                out.flush();
-                            }
-                            else {
-                                Message response = new Message(MessageCodes.INTERNAL_SERVER_ERROR, "Failed to create user");
-                                out.writeObject(response);
-                                out.flush();
-                            }
-
-                        }
-
+                        UserAuthParam userAuthParam = UserAuthMapper.mapFromJson(request.getBody());
+                        LoginFacade.loginUser(userAuthParam, out);
                     }
 
 
