@@ -1,6 +1,6 @@
 package com.study.studyprojects.codenamesserver;
 
-import com.study.studyprojects.codenamesserver.controller.UserThread;
+import com.study.studyprojects.codenamesserver.controller.ClientThread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.Set;
 public class Main
 {
 
-    static Set<UserThread> userThreads = new HashSet<>();
+    static Set<ClientThread> clientThreads = new HashSet<>();
 
     public static void main( String[] args )
     {
@@ -35,7 +35,7 @@ public class Main
                 Socket clientSocket = socket.accept();
 
                 log.info("New user connected");
-                userThreads.add(new UserThread(clientSocket));
+                clientThreads.add(new ClientThread(clientSocket));
             }
 
         }catch (IOException e) {

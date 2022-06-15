@@ -2,14 +2,13 @@ package com.study.studyprojects.codenamesserver.controller;
 
 import com.study.studyprojects.codenamesserver.facade.LoginFacade;
 import com.study.studyprojects.codenamesserver.facade.SignupFacade;
-import com.study.studyprojects.codenamesserver.service.UserService;
 import com.study.studyprojects.model.Message;
 import com.study.studyprojects.model.MessageCodes;
+import com.study.studyprojects.model.dto.UserDto;
 import com.study.studyprojects.model.mapper.UserAuthMapper;
 import com.study.studyprojects.model.param.UserAuthParam;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,14 +16,14 @@ import java.net.Socket;
 import java.util.Optional;
 
 @Slf4j
-public class UserThread extends Thread {
+public class ClientThread extends Thread {
 
 
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    public UserThread(Socket socket) {
+    public ClientThread(Socket socket) {
 
         this.socket = socket;
 
