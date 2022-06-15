@@ -1,4 +1,4 @@
-package com.study.studyprojects.codenamesserver.model.common;
+package com.study.studyprojects.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

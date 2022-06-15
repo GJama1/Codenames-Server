@@ -26,6 +26,13 @@ public class Main
             props.load(is);
 
             int port = Integer.parseInt(props.getProperty("server.port"));
+
+            String datasourceUrl = props.getProperty("datasource.url");
+            String datasourceUsername = props.getProperty("datasource.username");
+            String datasourcePassword = props.getProperty("datasource.password");
+
+
+
             ServerSocket socket = new ServerSocket(port);
 
             while(true) {
