@@ -1,12 +1,18 @@
 package com.study.studyprojects.codenamesserver.controller;
 
+import com.study.studyprojects.codenamesserver.facade.CreateGameFacade;
 import com.study.studyprojects.codenamesserver.facade.LoginFacade;
 import com.study.studyprojects.codenamesserver.facade.SignupFacade;
+import com.study.studyprojects.model.GameDetails;
 import com.study.studyprojects.model.Message;
 import com.study.studyprojects.model.MessageCodes;
 import com.study.studyprojects.model.dto.UserDto;
+import com.study.studyprojects.model.mapper.CreateGameMapper;
 import com.study.studyprojects.model.mapper.UserAuthMapper;
+import com.study.studyprojects.model.param.CreateGameParam;
 import com.study.studyprojects.model.param.UserAuthParam;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -16,12 +22,15 @@ import java.net.Socket;
 import java.util.Optional;
 
 @Slf4j
+@Getter
+@Setter
 public class ClientThread extends Thread {
-
 
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+
+    private GameDetails gameDetails;
 
     public ClientThread(Socket socket) {
 
@@ -63,6 +72,17 @@ public class ClientThread extends Thread {
 
                         UserAuthParam userAuthParam = UserAuthMapper.mapFromJson(request.getBody());
                         LoginFacade.loginUser(userAuthParam, out);
+                    }
+                    else if (request.getCode().equals(MessageCodes.CREATE_GAME_REQUEST)) {
+
+                        CreateGameParam createGameParam = CreateGameMapper.mapFromJson(request.getBody());
+
+                        CreateGameFacade createGameFacade = new CreateGameFacade(out);
+
+                        Optional<GameDetails> game = createGameFacade.createGame(createGameParam);
+
+                        game.ifPresent(details -> this.gameDetails = details);
+
                     }
 
 
