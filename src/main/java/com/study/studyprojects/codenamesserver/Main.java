@@ -15,7 +15,7 @@ import java.util.Set;
 public class Main
 {
 
-    static Set<ClientThread> clientThreads = new HashSet<>();
+    public static Set<ClientThread> clientThreads = new HashSet<>();
 
     public static void main( String[] args )
     {
